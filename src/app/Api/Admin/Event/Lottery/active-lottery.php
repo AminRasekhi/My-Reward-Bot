@@ -1,5 +1,20 @@
 <?php
 
+if ($telegramApi->getText() == "لیست قرعه های  فعال") {
+    $reply_keyboard = [
+        'keyboard' => [
+            [
+                [
+                    'text' => "بازگشت به پنل ادمین",
+                ],
+            ],
+        ],
+    ];
+
+    $text = " بخش لیست قرعه های فعال .\n" . "این بخش غیر فعال است . \nجهت ادامه فرایند لطفا یکی از گزیینه های زیر را انتخاب نمایید .";
+    $telegramApi->sendMessage($text, $reply_keyboard);
+}
+
 //all lottery
 if ($telegramApi->getText() == "لیست قرعه های  فعال") {
     $lotteries = $sql->table('events')->select()->where('status', 1)->get();
@@ -36,4 +51,13 @@ if (strpos($telegramApi->getText(), "Active Lottery || ") === 0) {
 
 }
 
-include_once "show-user-in-lottery.php";
+//show user in lottery
+if ($telegramApi->getText() == "لیست همه افراد شرکت کننده") {
+    $lotteryID = end(explode("_", $userStep));
+
+    $eventObj->setConnectEventTable('id', $lotteryID);
+    //set step
+    $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], ['Admin_panel|Active_Lottery_Show_Users']);
+
+    $eventObj->showLotterUsers('events.id', $eventObj->getEventID());
+}

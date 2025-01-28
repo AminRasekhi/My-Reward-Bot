@@ -63,10 +63,10 @@ class Event
             ],
             [
                 [
-                    'text' => $this->event['id'] . '_ ویرایش قرعه کشی',
+                    'text' => $this->event['id'] . '-ویرایش قرعه کشی',
                 ],
                 [
-                    'text' => $this->event['id'] . '_ حذف قرعه کشی',
+                    'text' => $this->event['id'] . '-حذف قرعه کشی',
                 ],
             ],
 
@@ -75,13 +75,13 @@ class Event
         if ($this->event['status'] == 1) {
             $buttons[] = [
                 [
-                    'text' => $this->event['id'] . '_ غیر فعال کردن قرعه کشی',
+                    'text' => $this->event['id'] . '-غیر فعال کردن قرعه کشی',
                 ],
             ];
         } else {
             $buttons[] = [
                 [
-                    'text' => $this->event['id'] . '_ فعال کردن قرعه کشی',
+                    'text' => $this->event['id'] . '-فعال کردن قرعه کشی',
                 ],
             ];
         }
@@ -96,5 +96,40 @@ class Event
         $text = "لطفا برای ادامه فرایند یکی از گزیینه ها را انتخاب نمایید .";
         $this->telegramApi->sendMessage($text, $reply_keyboard);
 
+    }
+    public function showLotterUsers($columnConditionForLotteryUsers, $value)
+    {
+        $this->setLotteryUsers($columnConditionForLotteryUsers, $value);
+        if ($this->lotteryUsers == null) {
+            return;
+        }
+
+        if ($this->event == null) {
+            return;
+        }
+
+        $usersInfo = "نمایش لیست کاربران ثبت نام شده در  " . $this->event['name'] . PHP_EOL . PHP_EOL . PHP_EOL;
+
+        $usersInLottery = array_chunk($this->lotteryUsers, 90);
+        foreach ($usersInLottery as $userPages) {
+            foreach ($userPages as $user) {
+                $usersInfo .= "Name : " . $user['first_name'] . " " . $user['last_name'] . PHP_EOL . "Username : " . "@" . $user['username'] . PHP_EOL . PHP_EOL;
+            }
+            $this->telegramApi->sendMessage($usersInfo);
+            $usersInfo = "";
+        }
+        $text = "برای ادامه کار لطفا یکی از گزیینه های زیر را انتخاب نمایید";
+
+        $reply_markup = [
+            'keyboard' => [
+                [
+                    [
+                        'text' => 'بازگشت به پنل ادمین',
+                    ],
+                ],
+            ],
+        ];
+
+        $this->telegramApi->sendMessage($text, $reply_markup);
     }
 }
