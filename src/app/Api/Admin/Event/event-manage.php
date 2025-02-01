@@ -21,9 +21,7 @@ if ($telegramApi->getText() == "مدیریت قرعه کشی") {
                 [
                     'text' => "افزودن قرعه کشی",
                 ],
-                [
-                    'text' => "حذف قرعه کشی",
-                ],
+
             ],
             [
                 [
@@ -35,4 +33,3 @@ if ($telegramApi->getText() == "مدیریت قرعه کشی") {
     $telegramApi->sendMessage($text, $reply_keyboard);
 }
 include_once "insert-event.php";
-include_once "edit-event.php";
