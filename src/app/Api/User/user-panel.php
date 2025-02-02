@@ -8,9 +8,31 @@ if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() =
     [
         [
             [
-                'text' => 'ثبت نام در قرعه کشی',
+                'text' => '🎰ثبت نام در قرعه کشی',
             ],
         ],
+        [
+            [
+                'text' => '📊اطلاعات حساب',
+            ],
+        ],
+        [
+            [
+                'text' => '💰افزایش امتیاز',
+            ],
+        ],
+    ];
+    $reply_markup = [ 'keyboard' => $keyboard ];
+    $telegramApi->sendMessage($text, $reply_markup);
+}
+
+include_once "../Admin/admin-panel.php";
+include_once "./InviteLink/invite-link.php";
+include_once "./Lottery/lottery-register.php";
+include_once "./AccountInformation/account-information.php";
+
+
+    /*
         [
             [
                 'text' => 'افزایش امتیاز',
@@ -19,19 +41,5 @@ if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() =
                 'text' => 'تبدیل امتیاز به شانس',
             ],
         ],
-        [
-            [
-                'text' => 'اطلاعات حساب',
-            ],
-        ],
-    ];
-    $reply_markup = [ 'keyboard' => $keyboard ];
-    // lottery register
-    // invite link
-    // admin panel
+    */    
 
-}
-
-include_once "../Admin/admin-panel.php";
-include_once "./InviteLink/invite-link.php";
-include_once "./Lottery/lottery-register.php";
