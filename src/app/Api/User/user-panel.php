@@ -1,7 +1,7 @@
 <?php
 namespace src\app\Api\Admin;
 
-if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() == "بازگشت به صفحه اصلی") {
+if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() == "🏡بازگشت به صفحه اصلی") {
 
     $text = "به صفحه ی اصلی خوش آمدید. برای ادامه یکی از گزینه های زیر را انتخاب کنید : ";
     $keyboard = 
