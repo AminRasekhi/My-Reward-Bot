@@ -1,9 +1,31 @@
 <?php
 namespace src\app\Api\Admin;
 
-if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() == "return_to_home") {
+if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() == "بازگشت به صفحه اصلی") {
 
-    //// reply_markup
+    $text = "به صفحه ی اصلی خوش آمدید. برای ادامه یکی از گزینه های زیر را انتخاب کنید : ";
+    $keyboard = 
+    [
+        [
+            [
+                'text' => 'ثبت نام در قرعه کشی',
+            ],
+        ],
+        [
+            [
+                'text' => 'افزایش امتیاز',
+            ],
+            [
+                'text' => 'تبدیل امتیاز به شانس',
+            ],
+        ],
+        [
+            [
+                'text' => 'اطلاعات حساب',
+            ],
+        ],
+    ];
+    $reply_markup = [ 'keyboard' => $keyboard ];
     // lottery register
     // invite link
     // admin panel
