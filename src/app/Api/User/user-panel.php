@@ -3,9 +3,9 @@ namespace src\app\Api\Admin;
 
 if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() == "🏡بازگشت به صفحه اصلی") {
 
-    $text = "به صفحه ی اصلی خوش آمدید. برای ادامه یکی از گزینه های زیر را انتخاب کنید : ";
-    $keyboard = 
-    [
+    $text     = "به صفحه ی اصلی خوش آمدید. برای ادامه یکی از گزینه های زیر را انتخاب کنید : ";
+    $keyboard =
+        [
         [
             [
                 'text' => '🎰ثبت نام در قرعه کشی',
@@ -22,7 +22,15 @@ if (strpos($telegramApi->getText(), '/start') === 0 && $telegramApi->getText() =
             ],
         ],
     ];
-    $reply_markup = [ 'keyboard' => $keyboard ];
+    if ($user['is_admin']) {
+        $keyboard[] = [
+            [
+                'text' => "پنل ادمین",
+            ],
+        ];
+    }
+    $reply_markup = ['keyboard' => $keyboard];
+
     $telegramApi->sendMessage($text, $reply_markup);
 }
 
@@ -31,8 +39,7 @@ include_once "./InviteLink/invite-link.php";
 include_once "./Lottery/lottery-register.php";
 include_once "./AccountInformation/account-information.php";
 
-
-    /*
+/*
         [
             [
                 'text' => 'افزایش امتیاز',
@@ -41,5 +48,4 @@ include_once "./AccountInformation/account-information.php";
                 'text' => 'تبدیل امتیاز به شانس',
             ],
         ],
-    */    
-
+    */
