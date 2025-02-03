@@ -1,6 +1,6 @@
 <?php
 
-if ($telegramApi->getText() == "admin-panel" || $telegramApi->getText() == "بازگشت به پنل ادمین") {
+if ($telegramApi->getText() == "پنل ادمین" || $telegramApi->getText() == "بازگشت به پنل ادمین") {
     $text           = "به پنل مدیریت خوش امدید .\n لطفا برای ادامه کار یکی از دکمه های زیر رو انتخاب نمایید .";
     $reply_keyboard = [
         'keyboard' => [
