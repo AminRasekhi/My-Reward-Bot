@@ -2,13 +2,19 @@
 
 use Morilog\Jalali\Jalalian;
 
+function setStep($text)
+{
+    global $telegramApi;
+    global $sql;
+    $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], [$text]);
 
+}
 
 function setManualLog($text, $file = "AllError.log")
 {
     date_default_timezone_set('Asia/Tehran');
 
-    $file = fopen('../Log/'.$file, 'a');
+    $file = fopen('../Log/' . $file, 'a');
     if ($file) {
         // fwrite($file, "[ ".jalaliDate(time() , "%A, %d %B %Y || %H:%i:%s")." ] - " . $text . PHP_EOL . PHP_EOL);
         fwrite($file, "[ " . date("Y-m-d H:i:s") . " ] - " . $text . PHP_EOL . PHP_EOL);
@@ -73,7 +79,7 @@ function validateNationalCode($nationalCode)
     $nationalCode = trim($nationalCode, ' .');
     $nationalCode = convertArabicToEnglish($nationalCode);
     $nationalCode = convertPersianToEnglish($nationalCode);
-    $bannedArray = ['0000000000', '1111111111', '2222222222', '3333333333', '4444444444', '5555555555', '6666666666', '7777777777', '8888888888', '9999999999'];
+    $bannedArray  = ['0000000000', '1111111111', '2222222222', '3333333333', '4444444444', '5555555555', '6666666666', '7777777777', '8888888888', '9999999999'];
 
     if (empty($nationalCode)) {
         return false;
@@ -114,17 +120,17 @@ function returnToMenuAdmin($text, $sendEditMessage = false)
             // Fetch DB
             [
                 [
-                    'text' => 'بازگشت به ادمین پنل',
-                    'callback_data' => 'return_admin_panel_button'
-                ]
+                    'text'          => 'بازگشت به ادمین پنل',
+                    'callback_data' => 'return_admin_panel_button',
+                ],
             ],
             [
                 [
-                    'text' => 'بازگشت به منوی اصلی',
-                    'callback_data' => 'return_home_button'
-                ]
+                    'text'          => 'بازگشت به منوی اصلی',
+                    'callback_data' => 'return_home_button',
+                ],
             ], //The buttons must be read from the database.
-        ]
+        ],
     ];
     if ($sendEditMessage) {
         $telegramApi->editMessageText($text, $reply_markup);
