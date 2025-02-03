@@ -3,6 +3,8 @@ CREATE TABLE events(
     name VARCHAR(255) UNIQUE NOT NULL,
     description  VARCHAR(255) NULL,
     description_to_join_lottery  VARCHAR(255) NULL,
+    award_count INT NULL,
+    award_unit VARCHAR(255) NULL,
     status TINYINT DEFAULT 1 COMMENT '0 means disable, 1 means enable',
     start_date TIMESTAMP NULL,
     end_date TIMESTAMP NULL,

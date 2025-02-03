@@ -9,4 +9,4 @@ CREATE TABLE forceJoins(
     expired_at TIMESTAMP NULL,
 
     FOREIGN KEY (owner_user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+);  

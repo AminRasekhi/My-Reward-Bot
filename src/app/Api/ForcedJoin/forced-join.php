@@ -1,5 +1,5 @@
 <?php
-$channels = $sql->table('channels')->select(['channel_name', 'channel_id'])->get();
+$channels = $sql->table('forceJoins')->select(['channel_name', 'channel_id'])->get();
 
 $channels_text = "برای استفاده از ربات لطفا در کانال های زیر عضو شوید" . PHP_EOL . PHP_EOL;
 

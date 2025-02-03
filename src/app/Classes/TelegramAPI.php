@@ -1,5 +1,4 @@
 <?php
-
 namespace src\app\Classes;
 
 use src\app\Trait\WebHook;
@@ -34,46 +33,46 @@ class TelegramAPI
     public $is_permium;
     public function __construct()
     {
-        $this->client = new Guzzle;
+        $this->client   = new Guzzle;
         $this->response = json_decode(file_get_contents('php://input'), true);
         //$this->setLog($this->response, '../Log/Response.log', 'INFO');
         setManualLog(json_encode($this->response));
 
         if (array_key_exists('message', $this->response)) {
-            $this->user_id = $this->response['message']['from']['id'] ?? null;
-            $this->chat_id = $this->response['message']['chat']['id'] ?? null;
-            $this->message_id = $this->response['message']['message_id'] ?? null;
-            $this->first_name = $this->response['message']['from']['first_name'] ?? null;
-            $this->last_name = $this->response['message']['from']['last_name'] ?? null;
-            $this->username = $this->response['message']['from']['username'] ?? null;
-            $this->text = $this->response['message']['text'] ?? null;
-            $this->is_bot = $this->response['message']['from']['is_bot'] == true ? 1 : 0;
-            $this->is_permium = $this->response['message']['from']['is_permium'] == true ? 1 : 0;
+            $this->user_id        = $this->response['message']['from']['id'] ?? null;
+            $this->chat_id        = $this->response['message']['chat']['id'] ?? null;
+            $this->message_id     = $this->response['message']['message_id'] ?? null;
+            $this->first_name     = $this->response['message']['from']['first_name'] ?? null;
+            $this->last_name      = $this->response['message']['from']['last_name'] ?? null;
+            $this->username       = $this->response['message']['from']['username'] ?? null;
+            $this->text           = $this->response['message']['text'] ?? null;
+            $this->is_bot         = $this->response['message']['from']['is_bot'] == true ? 1 : 0;
+            $this->is_permium     = $this->response['message']['from']['is_permium'] == true ? 1 : 0;
             $this->media_group_id = $this->response['message']['media_group_id'] ?? null;
 
             //photo
             if (isset($this->response['message']['photo'])) {
-                $this->file_id = end($this->response['message']['photo'])['file_id'] ?? null;
+                $this->file_id   = end($this->response['message']['photo'])['file_id'] ?? null;
                 $this->file_size = end($this->response['message']['photo'])['file_size'] ?? null;
             } else {
                 $this->file_id = null;
             }
 
-            $this->audio_id = $this->response['message']['audio']['file_id'] ?? null;
-            $this->video_id = $this->response['message']['video']['file_id'] ?? null;
-            $this->file_size = $this->response['message']['vdieo']['file_size'] ?? null;
-            $this->file_type = $this->response['message']['vdieo']['mime_type'] ?? null;
+            $this->audio_id     = $this->response['message']['audio']['file_id'] ?? null;
+            $this->video_id     = $this->response['message']['video']['file_id'] ?? null;
+            $this->file_size    = $this->response['message']['vdieo']['file_size'] ?? null;
+            $this->file_type    = $this->response['message']['vdieo']['mime_type'] ?? null;
             $this->animation_id = $this->response['message']['animation']['file_id'] ?? null;
-            $this->caption = $this->response['message']['caption'] ?? null;
+            $this->caption      = $this->response['message']['caption'] ?? null;
         } elseif (array_key_exists('callback_query', $this->response)) {
             $this->callback_id = $this->response['callback_query']['id'] ?? null;
-            $this->user_id = $this->response['callback_query']['from']['id'] ?? null;
-            $this->chat_id = $this->response['callback_query']['message']['chat']['id'] ?? null;
-            $this->message_id = $this->response['callback_query']['message']['message_id'] ?? null;
-            $this->first_name = $this->response['callback_query']['from']['first_name'] ?? null;
-            $this->last_name = $this->response['callback_query']['from']['last_name'] ?? null;
-            $this->username = $this->response['callback_query']['from']['username'] ?? null;
-            $this->text = $this->response['callback_query']['data'] ?? null;
+            $this->user_id     = $this->response['callback_query']['from']['id'] ?? null;
+            $this->chat_id     = $this->response['callback_query']['message']['chat']['id'] ?? null;
+            $this->message_id  = $this->response['callback_query']['message']['message_id'] ?? null;
+            $this->first_name  = $this->response['callback_query']['from']['first_name'] ?? null;
+            $this->last_name   = $this->response['callback_query']['from']['last_name'] ?? null;
+            $this->username    = $this->response['callback_query']['from']['username'] ?? null;
+            $this->text        = $this->response['callback_query']['data'] ?? null;
         }
     }
 
@@ -177,7 +176,7 @@ class TelegramAPI
             $message_id = $this->message_id;
         }
         $params = [
-            'chat_id' => $chat_id,
+            'chat_id'    => $chat_id,
             'message_id' => $message_id,
         ];
         $response = $this->client->request('deleteMessage', $params);
@@ -188,7 +187,7 @@ class TelegramAPI
     {
         $params = [
             'chat_id' => $this->chat_id,
-            'text' => $text,
+            'text'    => $text,
         ];
 
         if ($reply_to_message_id) {
@@ -208,7 +207,7 @@ class TelegramAPI
     public function editMessageReplyMarkup($reply_markup = null)
     {
         $params = [
-            'chat_id' => $this->chat_id,
+            'chat_id'    => $this->chat_id,
             'message_id' => $this->message_id,
         ];
 
@@ -223,8 +222,8 @@ class TelegramAPI
     public function editMessageText($text, $reply_markup = null, $parse_mode = null)
     {
         $params = [
-            'chat_id' => $this->chat_id,
-            'text' => $text,
+            'chat_id'    => $this->chat_id,
+            'text'       => $text,
             'message_id' => $this->message_id,
         ];
 
@@ -243,7 +242,7 @@ class TelegramAPI
     {
         $params = [
             'chat_id' => $this->chat_id,
-            'photo' => $photo,
+            'photo'   => $photo,
         ];
 
         if ($caption) {
@@ -263,7 +262,7 @@ class TelegramAPI
     {
         $params = [
             'chat_id' => $this->chat_id,
-            'video' => $video,
+            'video'   => $video,
         ];
 
         if ($caption) {
@@ -281,7 +280,7 @@ class TelegramAPI
     {
         $params = [
             'chat_id' => $this->chat_id,
-            'media' => json_encode($media),
+            'media'   => json_encode($media),
         ];
 
         if ($reply_markup) {
@@ -296,8 +295,8 @@ class TelegramAPI
     {
         $params = [
             'chat_id' => $this->chat_id,
-            'action' => $action, // typing, upload_photo, record_video, upload_video, record_voice, find_location
-        ]; // upload_voice, upload_document, upload_video_note, record_video_note,
+            'action'  => $action, // typing, upload_photo, record_video, upload_video, record_voice, find_location
+        ];                    // upload_voice, upload_document, upload_video_note, record_video_note,
 
         $response = $this->client->request('sendChatAction', $params);
 
@@ -306,7 +305,7 @@ class TelegramAPI
     public function sendAnimation($animation, $caption = null, $reply_markup = null)
     {
         $params = [
-            'chat_id' => $this->chat_id,
+            'chat_id'   => $this->chat_id,
             'animation' => $animation,
         ];
 
@@ -329,28 +328,32 @@ class TelegramAPI
             'user_id' => $user_id,
         ];
 
-        $response = $this->client->request('getChatMember', $params);
-        if ($response['callback']['ok']) {
-            return $response['callback']['result'];
+        try {
+            $response = $this->client->request('getChatMember', $params);
+            if ($response['callback']['ok']) {
+                return $response['callback']['result'];
+            }
+        } catch (\Exception $e) {
+            setManualLog($e->getMessage());
         }
 
         return null; // اگر خطایی وجود داشته باشد، مقدار null بازگردانده می‌شود
     }
     public function setDefault()
     {
-        $this->chat_id = null;
-        $this->callback_id = null;
-        $this->user_id = null;
-        $this->message_id = null;
-        $this->first_name = null;
-        $this->last_name = null;
-        $this->username = null;
-        $this->text = null;
-        $this->file_id = null;
-        $this->audio_id = null;
-        $this->video_id = null;
+        $this->chat_id      = null;
+        $this->callback_id  = null;
+        $this->user_id      = null;
+        $this->message_id   = null;
+        $this->first_name   = null;
+        $this->last_name    = null;
+        $this->username     = null;
+        $this->text         = null;
+        $this->file_id      = null;
+        $this->audio_id     = null;
+        $this->video_id     = null;
         $this->animation_id = null;
-        $this->caption = null;
+        $this->caption      = null;
     }
     public function __destruct()
     {

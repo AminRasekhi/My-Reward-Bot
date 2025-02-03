@@ -10,6 +10,7 @@ require_once "../../core/initialize.php";
 
 //TelegramAPI Instance
 $telegramApi = new TelegramAPI;
+
 // //DB Instance
 $sql      = new DB();
 $eventObj = new Event($sql, $telegramApi);
@@ -26,7 +27,7 @@ include_once 'ForcedJoin/forced-join.php';
 //User Panel
 include_once 'User/user-panel.php';
 
-if ($user['is_admin'] == 1) {
-    //Admin Panel
-    include_once 'Admin/admin-panel.php';
-}
+// if ($user['is_admin'] == 1) {
+//     //Admin Panel
+//     include_once 'Admin/admin-panel.php';
+// }
