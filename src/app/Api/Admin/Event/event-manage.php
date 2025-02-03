@@ -1,6 +1,7 @@
 <?php
 
 if ($telegramApi->getText() == "مدیریت قرعه کشی") {
+    setStep("admin-panel|event_manage");
     $text           = "به قسمت مدیریت قرعه کشی خوش آمدید . \n برای ادامه فرایند لطفا یکی از گزیینه های زیر رو انتخاب نمایید .";
     $reply_keyboard = [
         'keyboard' => [
@@ -31,5 +32,6 @@ if ($telegramApi->getText() == "مدیریت قرعه کشی") {
         ],
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
+    exit(1);
 }
 include_once "insert-event.php";
