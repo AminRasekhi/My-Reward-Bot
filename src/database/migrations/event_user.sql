@@ -1,4 +1,4 @@
-CREATE TABLE users(
+CREATE TABLE event_user(
     user_id INT,
     event_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

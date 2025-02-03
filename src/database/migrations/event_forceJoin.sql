@@ -1,4 +1,4 @@
-CREATE TABLE forceJoins(
+CREATE TABLE event_forceJoins(
     user_id INT,
     forceJoin_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,

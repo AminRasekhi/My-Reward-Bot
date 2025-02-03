@@ -1,6 +1,6 @@
 <?php
 
-if ($telegramApi->getText() == '🎰ثبت نام در قرعه کشی') {
+if ($telegramApi->getText() == "🎰ثبت نام در قرعه کشی") {
 
     $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], ['lottery_register']);
     $lotteries = $sql->table('events')->select()->where('status', 1)->get();
@@ -22,7 +22,7 @@ if ($telegramApi->getText() == '🎰ثبت نام در قرعه کشی') {
         foreach ($lotteries as $lottery) {
             $text .= '🔹 ' . $lottery['name'] . PHP_EOL;
             //$text .= $lottery['name'] . ' : ' . $lottery['description'] . PHP_EOL;
-            $keyboard = [
+            $keyboard[] = [
                 [
                     'text' => '🔸 ' . $lottery['name'],
                 ],
