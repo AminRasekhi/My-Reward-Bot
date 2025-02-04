@@ -45,12 +45,10 @@ if (strpos($telegramApi->getText(), "All Lottery || ") === 0) {
 //show user in lottery
 if ($telegramApi->getText() == "لیست همه افراد شرکت کننده") {
     $lotteryID = end(explode("_", $userStep));
-    setStep("admin_panel|show_all_user_in_lottery");
     $eventObj->setConnectEventTable('id', $lotteryID);
     //set step
-    $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], ['Admin_panel|All_Lottery_Show_Users']);
-
-    $eventObj->showLotterUsers(null, null);
+    setStep("Admin_panel|All_Lottery_Show_Users_" . $lotteryID);
+    $eventObj->showLotterUsers("events.id", $lotteryID , "event_user.lottery_token");
 }
 
 if ($telegramApi->getText() == "فعال کردن قرعه کشی") {
