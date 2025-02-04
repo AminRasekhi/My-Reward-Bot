@@ -22,7 +22,7 @@ function checkUserInChannels($channels)
     return true;
 }
 
-if (!checkUserInChannels($channels)) {
+if (! checkUserInChannels($channels)) {
     listForcedJoin($channels);
 }
 
@@ -36,14 +36,14 @@ function listForcedJoin($channels)
     foreach ($channels as $channel) {
         $channel_keyboard[] = [
             'text' => $channel['channel_name'],
-            'url' => str_replace('@', 'https://t.me/', $channel['channel_id']),
+            'url'  => str_replace('@', 'https://t.me/', $channel['channel_id']),
         ];
     }
 
-    $channel_buttons = array_chunk($channel_keyboard, 1);
+    $channel_buttons   = array_chunk($channel_keyboard, 1);
     $channel_buttons[] = [
         [
-            'text' => '✅عضویت',
+            'text'          => '✅عضویت',
             'callback_data' => '/start',
         ],
     ];
