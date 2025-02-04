@@ -35,3 +35,6 @@ if ($telegramApi->getText() == "مدیریت قرعه کشی") {
     exit(1);
 }
 include_once "insert-event.php";
+include_once "Lottery/all-lottery.php";
+include_once "Lottery/active-lottery.php";
+include_once "Lottery/Inactive-lottery.php";
