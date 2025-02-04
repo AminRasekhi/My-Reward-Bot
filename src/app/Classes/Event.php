@@ -35,12 +35,12 @@ class Event
         $this->event = $this->sql->table('events')->select()->where($column, $value)->get();
 
     }
-    public function setLotteryUsers($columnCondition = null, $value = null)
+    public function setLotteryUsers($columnCondition = null, $value = null, $orderBy = null)
     {
         $this->lotteryUsers = $this->sql->table('events')->select()
             ->join('event_user')->on('events', 'id', 'event_user', 'event_id')
             ->join('users')->on('event_user', 'user_id', 'users', 'id')
-            ->where($columnCondition ?? "null", $value ?? "null")->get();
+            ->where($columnCondition ?? "null", $value ?? "null")->orderBy($orderBy ?? "null")->get();
 
         setManualLog("lottery lottery users : " . json_encode($this->lotteryUsers));
 
@@ -56,8 +56,8 @@ class Event
         "\nقوانین : " . $this->event[0]['rules_description'] .
         "\nجوایز : " . $this->event[0]['award'] .
         "\nتعداد ثبت نام کنندگان :‌" . count($this->lotteryUsers) .
-        "\nتاریخ شروع : " . $this->event[0]['start_date'] .
-        "\nتاریخ پایان : " . $this->event[0]['end_date'];
+        "\nتاریخ شروع : " . jalaliDate($this->event[0]['start_date']) .
+        "\nتاریخ پایان : " . jalaliDate($this->event[0]['end_date']);
         return $text;
     }
     public function lotteryRelyMarkup($text = null)
@@ -105,16 +105,16 @@ class Event
         $this->telegramApi->sendMessage($text, $reply_keyboard);
 
     }
-    public function showLotterUsers($columnConditionForLotteryUsers, $value)
+    public function showLotterUsers($columnConditionForLotteryUsers, $value, $orderBy = null)
     {
-        $this->setLotteryUsers($columnConditionForLotteryUsers, $value);
+        $this->setLotteryUsers($columnConditionForLotteryUsers, $value, $orderBy);
         if ($this->lotteryUsers == null || count($this->lotteryUsers) == 0) {
-            $this->telegramApi->sendMessage("تعداد شرکت کنندگان : 0");
+            $this->telegramApi->sendMessage("تعداد افراد شرکت کننده : 0");
             exit(1);
         }
 
         if ($this->event == null) {
-            return;
+            exit(1);
         }
 
         $usersInfo = "نمایش لیست کاربران ثبت نام شده در  " . $this->event['name'] . PHP_EOL . PHP_EOL . PHP_EOL;
@@ -122,7 +122,7 @@ class Event
         $usersInLottery = array_chunk($this->lotteryUsers, 90);
         foreach ($usersInLottery as $userPages) {
             foreach ($userPages as $user) {
-                $usersInfo .= "Name : " . $user['first_name'] . " " . $user['last_name'] . PHP_EOL . "Username : " . "@" . $user['username'] . PHP_EOL . PHP_EOL;
+                $usersInfo .= "Name : " . $user['first_name'] . " " . $user['last_name'] . PHP_EOL . "Username : " . "@" . $user['username'] . PHP_EOL . "Tokens for this lottery : " . $user['lottery_token'] . PHP_EOL . PHP_EOL;
             }
             $this->telegramApi->sendMessage($usersInfo);
             $usersInfo = "";
@@ -130,5 +130,6 @@ class Event
         $text = "برای ادامه کار لطفا یکی از گزیینه های زیر را انتخاب نمایید";
 
         $this->telegramApi->sendMessage($text);
+        exit(1);
     }
 }

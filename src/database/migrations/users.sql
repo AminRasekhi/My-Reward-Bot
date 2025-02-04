@@ -6,6 +6,7 @@ CREATE TABLE users(
     username VARCHAR(255) NULL,
     step TEXT NULL,
     invited_by_user_id INT,
+    tokens INT DEFAULT 0,
     invite_link TEXT NOT NULL UNIQUE,
     is_banned TINYINT DEFAULT 0 COMMENT '0 means not banned, 1 means is banned',
     is_admin TINYINT DEFAULT 0 COMMENT '0 means not admin, 1 means is admin',
