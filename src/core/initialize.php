@@ -5,6 +5,9 @@ namespace src\core;
 if (!defined("TOKEN")) {
     define("TOKEN", '');
 }
+if (!defined("ODDS_RATIO")) {
+    define("ODDS_RATIO", '3');
+}
 if (!defined("DOMAIN")) {
     define('DOMAIN', 'https://moblekhoshrang.ir/');
 }
