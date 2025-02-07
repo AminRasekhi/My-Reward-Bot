@@ -33,7 +33,7 @@ if (strpos($telegramApi->getText(), '/start') === 0) {
                 $telegramApi->getFirst_name(),
                 $telegramApi->getLast_name(),
                 $telegramApi->getUsername(),
-                BOT_USERNAME . "?start=" . hash('md2', $telegramApi->getUser_id()),
+                BOT_USERNAME . "?start=" . $telegramApi->getUser_id(),
                 $invited_by_user_id,
                 'home',
             ]

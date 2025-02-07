@@ -1,9 +1,9 @@
 <?php
 
-if ($telegramApi->getText() == '📊اطلاعات حساب' ) {
+if ($telegramApi->getText() == '📊اطلاعات حساب') {
     $text = '👤 اطلاعات حساب شما : ' . PHP_EOL . PHP_EOL;
 
-    $InvitedUsers = $sql->table('users')->select()->where('invited_by_user_id', condition: $telegramApi->getUser_id())->get();
+    $InvitedUsers        = $sql->table('users')->select()->where('invited_by_user_id', $user['id'])->get();
     $countOfInvitedUsers = count($InvitedUsers);
     $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['tokens'], [$countOfInvitedUsers]);
 
@@ -11,8 +11,8 @@ if ($telegramApi->getText() == '📊اطلاعات حساب' ) {
     $text .= '🔹تعداد دعوت شدگان : ' . $countOfInvitedUsers . PHP_EOL;
     $text .= '🔸شانس های شما : ' . ($countOfInvitedUsers * ODDS_RATIO) . PHP_EOL;
 
-    $keyboard = 
-    [
+    $keyboard =
+        [
         [
             [
                 'text' => '🏡بازگشت به صفحه اصلی',
@@ -21,7 +21,7 @@ if ($telegramApi->getText() == '📊اطلاعات حساب' ) {
     ];
 
     $reply_keyboard = [
-        'keyboard' => $keyboard
+        'keyboard' => $keyboard,
     ];
 
     $telegramApi->sendMessage($text, $reply_markup);
