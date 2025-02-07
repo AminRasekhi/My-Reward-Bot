@@ -183,7 +183,7 @@ class TelegramAPI
 
         return $response;
     }
-    public function sendMessage($text, $reply_markup = null, $reply_to_message_id = null, $parse_mode = null)
+    public function sendMessage($text, $reply_markup = null, $reply_to_message_id = null, $parse_mode = null, $recipien_of_the_message = null)
     {
         $params = [
             'chat_id' => $this->chat_id,
@@ -192,6 +192,9 @@ class TelegramAPI
 
         if ($reply_to_message_id) {
             $params['reply_to_message_id'] = $reply_to_message_id;
+        }
+        if ($recipien_of_the_message) {
+            $params['chat_id'] = $recipien_of_the_message;
         }
         if ($reply_markup) {
             $params['reply_markup'] = json_encode($reply_markup);
