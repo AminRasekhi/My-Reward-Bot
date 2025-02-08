@@ -80,11 +80,12 @@ if (strpos($user['step'], 'token_exchange||') === 0){
 
     if ($score > $user['tokens']) {
         $text = 'مقدار موجودی شما کافی نیست!';
-    }elseif ($score < $user['tokens'] && $score > 0) {
+    }elseif ($score <= $user['tokens'] && $score >= 0) {
         $text = "مقدار $score به قرعه $lotteryName اختصاص یافت.";
         $score = $score + $event_user['lottery_token'];
 
         $sql->table('event_user')->where('event_user', $event_user['event_id'])->update(['lottery_token'], [$score]);
+        $sql->table('users')->where('id', $event_user['user_id'])->update(['tokens'], [$user['tokens'] - $score]);
     }else {
         $text = 'مقدار وارد شده صحیح نیست!';
     }
