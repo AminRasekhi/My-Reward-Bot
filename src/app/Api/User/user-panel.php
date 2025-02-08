@@ -14,6 +14,9 @@ if (strpos($telegramApi->getText(), '/start') === 0 || $telegramApi->getText() =
             [
                 'text' => '📊اطلاعات حساب',
             ],
+            [
+                'text' => '🎫تبدیل امتیاز به شانس',
+            ],
         ],
         [
             [
