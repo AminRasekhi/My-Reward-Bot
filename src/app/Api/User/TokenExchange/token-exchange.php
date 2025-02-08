@@ -35,7 +35,8 @@ if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس'){
         'keyboard' => $keyboard
     ];
 
-    $telegramApi->sendMessage($text, $reply_keyboard);
+    $telegramApi->sendMessage($text, $reply_markup);
+    exit(1);
 }
 
 
@@ -65,13 +66,14 @@ if (strpos($telegramApi->getText(), '🔹 ') === 0) {
         'keyboard' => $keyboard,
     ];
 
-    $telegramApi->sendMessage($text, $reply_keyboard);
+    $telegramApi->sendMessage($text, $reply_markup);
+    exit(1);
 }
 
 if (strpos($user['step'], 'token_exchange||') === 0){
     $score = $telegramApi->getText();
     $score = convertArabicToEnglish($score);
-    $lotteryName = explode('|| ', $user['step'])[1];
+    $lotteryName = explode('||', $userStep)[1];
 
     $lotteryInfo = $sql->table('events')->select()->where('name', $lotteryName)->first();
     $event_user  = $sql->table('event_user')->select()->where('user_id', $user['id'])->where("event_id", $lotteryInfo['id'])->first();
@@ -99,5 +101,6 @@ if (strpos($user['step'], 'token_exchange||') === 0){
         'keyboard' => $keyboard,
     ];
 
-    $telegramApi->sendMessage($text, $reply_keyboard);
+    $telegramApi->sendMessage($text, $reply_markup);
+    exit(1);
 }
