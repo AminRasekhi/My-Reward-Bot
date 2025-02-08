@@ -40,6 +40,7 @@ include_once "Lottery/lottery-register.php";
 include_once '../Admin/admin-panel.php';
 include_once "InviteLink/invite-link.php";
 include_once "AccountInformation/account-information.php";
+include_once "TokenExchange/token-exchange.php";
 
 /*
         [
