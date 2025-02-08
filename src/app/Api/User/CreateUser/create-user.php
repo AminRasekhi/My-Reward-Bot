@@ -15,9 +15,9 @@ if (strpos($telegramApi->getText(), '/start') === 0) {
             if ($invited_by_user_id) {
                 if ($user['invited_by_user_id '] == null) {
                     $res = $sql->table('users')->where('user_id', $invited_user_temp)->update(['tokens'], [$invited_by_user_id['tokens'] + ODDS_RATIO]);
-                    $reward_text = "🤝کاربر " . $user['first_name'] . " با لینک شما وارد شد." . PHP_EOL . "امتیاز کنونی شما : ". $invited_by_user_id['tokens'] + ODDS_RATIO;
+                    $reward_text = "🤝کاربر " . $telegramApi->getFirst_name() . " با لینک شما وارد شد." . PHP_EOL . "امتیاز کنونی شما : ". $invited_by_user_id['tokens'] + ODDS_RATIO;
                     $invited_by_user_id = $invited_by_user_id['id'];
-                    setManualLog($reward_text);
+                    $telegramApi->sendMessage($reward_text,null,null,null,$invited_user_temp);
                 }
             }
         }
