@@ -1,9 +1,9 @@
 <?php
 
-if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس'){
+if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس') {
     $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], ['token_exchange']);
     $lottery_register = $sql->table('event_user')->select()->where('user_id', $user['id'])->get();
-    
+
     $keyboard = [];
     $keyboard = [
         [
@@ -15,9 +15,9 @@ if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس'){
 
     if (empty($lottery_register) || (count($lottery_register) === 1 && empty($lottery_register[0]))) {
         $text = "شما در هیچ قرعه کشی شرکت نکرده اید !";
-    }else {
+    } else {
         $available_lotteries = $sql->table('events')->select()->where('id', $lottery_register['id'])->get();
-        
+
         $text = 'در زیر نام قرعه هایی که در آن شرکت کرده اید و فعال هستند آمده است. برای تخصیص امتیاز های خود به قرعه کشی یکی از قرعه کشی های زیر را که در آن شرکت کرده اید را انتخاب کنید : ';
 
         foreach ($available_lotteries as $item) {
@@ -32,21 +32,19 @@ if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس'){
     }
 
     $reply_markup = [
-        'keyboard' => $keyboard
+        'keyboard' => $keyboard,
     ];
 
     $telegramApi->sendMessage($text, $reply_markup);
     exit(1);
 }
 
-
 if (strpos($telegramApi->getText(), '🔹 ') === 0) {
 
-    
     $lotteryName = explode('🔹 ', $telegramApi->getText())[1];
 
-    $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], ['token_exchange||'.$lotteryName]);
-    
+    $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], ['token_exchange||' . $lotteryName]);
+
     $lotteryInfo = $sql->table('events')->select()->where('name', $lotteryName)->first();
     $event_user  = $sql->table('event_user')->select()->where('user_id', $user['id'])->where("event_id", $lotteryInfo['id'])->first();
 
@@ -70,23 +68,31 @@ if (strpos($telegramApi->getText(), '🔹 ') === 0) {
     exit(1);
 }
 
-if (strpos($user['step'], 'token_exchange||') === 0){
-    $score = $telegramApi->getText();
-    $score = convertArabicToEnglish($score);
+if (strpos($user['step'], 'token_exchange||') === 0) {
+    $score       = $telegramApi->getText();
+    $score       = convertArabicToEnglish($score);
+    $score       = convertPersianToEnglish($score);
     $lotteryName = explode('||', $userStep)[1];
-
+    setStep("successfuly_to_token_exchange");
     $lotteryInfo = $sql->table('events')->select()->where('name', $lotteryName)->first();
     $event_user  = $sql->table('event_user')->select()->where('user_id', $user['id'])->where("event_id", $lotteryInfo['id'])->first();
 
-    if ($score > $user['tokens']) {
-        $text = 'مقدار موجودی شما کافی نیست!';
-    }elseif ($score <= $user['tokens'] && $score >= 0) {
-        $text = "مقدار $score به قرعه $lotteryName اختصاص یافت.";
-        $score = $score + $event_user['lottery_token'];
+    // if (! is_numeric($score)) {
+    //     $telegramApi->sendMessage("مقدار وارد شده صحیح نیست .\nدر این قسمت باید عدد وارد شود .");
+    //     exit(1);
+    // }
+    (int) $token = $user['tokens'] ?? 0;
+    if ($score > $token) {
 
-        $sql->table('event_user')->where('event_user', $event_user['event_id'])->update(['lottery_token'], [$score]);
-        $sql->table('users')->where('id', $event_user['user_id'])->update(['tokens'], [$user['tokens'] - $score]);
-    }else {
+        $text = 'مقدار موجودی شما کافی نیست!';
+    } elseif ($score <= $token) {
+        $text = "مقدار $score به قرعه $lotteryName اختصاص یافت.";
+        (int) $lotteryScore += $score + $event_user['lottery_token'];
+
+        $sql->table('event_user')->select()->where("id", $event_user['id'])->update(['lottery_token'], [$lotteryScore]);
+        (int) $token -= $score;
+        $sql->table('users')->select()->where('id', $user['id'])->update(['tokens'], [$token]);
+    } else {
         $text = 'مقدار وارد شده صحیح نیست!';
     }
 
