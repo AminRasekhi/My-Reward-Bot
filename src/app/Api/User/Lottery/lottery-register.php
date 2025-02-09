@@ -16,17 +16,17 @@ if ($telegramApi->getText() == "🎰ثبت نام در قرعه کشی") {
     ];
 
     if (empty($lotteries) || (count($lotteries) === 1 && empty($lotteries[0]))) {
-        $text = "درحال حاضر قرعه کشی فعال وجود ندارد!";
+        $text = "🚫درحال حاضر قرعه کشی فعالی وجود ندارد!";
     } else {
-        $text = "قرعه کشی مورد نظر را انتخاب کنید : " . PHP_EOL . PHP_EOL;
+        $text = "🏷قرعه کشی مورد نظر خود را انتخاب کنید:" . PHP_EOL . PHP_EOL;
         foreach ($lotteries as $lottery) {
             if (strtotime($lottery['end_date']) > time()) {
 
-                $text .= '🔹 قرعه کشی : ' . $lottery['name'] . PHP_EOL;
-                $text .= "تاریخ پایان قرعه کشی : " . jalaliDate($lottery['end_date']) . PHP_EOL;
-                $text .= "توضیحات : " . $lottery['description'] . PHP_EOL;
-                $text .= "جوایز : " . $lottery['award'] . PHP_EOL;
-                $text .= "قوانین : " . $lottery['rules_description'] . PHP_EOL . PHP_EOL;
+                $text .= '🎰 قرعه کشی : ' . $lottery['name'] . PHP_EOL;
+                $text .= "🏆 جایزه : " . $lottery['award'] . PHP_EOL;
+                $text .= "📅 تاریخ پایان قرعه کشی : " . jalaliDate($lottery['end_date']) . PHP_EOL;
+                $text .= "👮🏼 قوانین قرعه کشی : " . $lottery['rules_description'] . PHP_EOL;
+                $text .= "📜 توضیحات : " . $lottery['description'] . PHP_EOL . PHP_EOL;
                 $keyboard[] = [
                     [
                         'text' => '🔸 ' . $lottery['name'],
@@ -49,14 +49,14 @@ if (strpos($telegramApi->getText(), '🔸 ') === 0) {
     $event_user  = $sql->table('event_user')->select()->where('user_id', $user['id'])->where("event_id", $lotteryInfo['id'])->first();
 
     if ($event_user) {
-        $text = 'شما قبلا در این قرعه کشی شرکت کرده اید!';
+        $text = "🚫شما قبلا در این قرعه کشی شرکت کرده اید!";
     } else {
         $lotteryID = $lotteryInfo['id'];
         $fields    = ['event_id', 'user_id'];
         $values    = [$lotteryID, $user['id']];
         $result    = $sql->table('event_user')->insert($fields, $values);
 
-        $text = 'با موفقیت در قرعه کشی شرکت داده شدید.';
+        $text = "✅ثبت نام شما با موفقیت انجام شد.";
     }
 
     $keyboard = [
