@@ -32,7 +32,7 @@ if (strpos($telegramApi->getText(), '/start') === 0 || $telegramApi->getText() =
             ],
         ];
     }
-    $reply_markup = ['keyboard' => $keyboard];
+    $reply_markup = ['keyboard' => $keyboard , "resize_keyboard" => true];
 
     $telegramApi->sendMessage($text, $reply_markup);
 }
