@@ -20,16 +20,21 @@ if ($telegramApi->getText() == "🎰ثبت نام در قرعه کشی") {
     } else {
         $text = "قرعه کشی مورد نظر را انتخاب کنید : " . PHP_EOL . PHP_EOL;
         foreach ($lotteries as $lottery) {
-            $text .= '🔹 ' . $lottery['name'] . PHP_EOL;
-            //$text .= $lottery['name'] . ' : ' . $lottery['description'] . PHP_EOL;
-            $keyboard[] = [
-                [
-                    'text' => '🔸 ' . $lottery['name'],
-                ],
-            ];
+            if (strtotime($lottery['end_date']) > time()) {
+
+                $text .= '🔹 قرعه کشی : ' . $lottery['name'] . PHP_EOL;
+                $text .= "تاریخ پایان قرعه کشی : " . jalaliDate($lottery['end_date']) . PHP_EOL;
+                $text .= "توضیحات : " . $lottery['description'] . PHP_EOL;
+                $text .= "جوایز : " . $lottery['award'] . PHP_EOL;
+                $text .= "قوانین : " . $lottery['rules_description'] . PHP_EOL . PHP_EOL;
+                $keyboard[] = [
+                    [
+                        'text' => '🔸 ' . $lottery['name'],
+                    ],
+                ];
+            }
         }
     }
-
     $reply_keyboard = [
         'keyboard' => $keyboard,
     ];
