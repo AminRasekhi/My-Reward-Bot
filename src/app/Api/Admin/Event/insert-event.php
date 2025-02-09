@@ -92,6 +92,8 @@ if (strpos($userStep, "admin_panel|add_lottery_award") === 0) {
 if (strpos($userStep, "admin_panel|add_lottery_status") === 0) {
     $lotteryID          = explode("-", $userStep)[1];
     $lotteryEndDateDays = $telegramApi->getText();
+    convertArabicToEnglish($lotteryEndDateDays);
+    convertPersianToEnglish($lotteryEndDateDays);
     if (! is_numeric($lotteryEndDateDays)) {
         $text = "لطفا فقط عدد وارد نمایید .";
         $telegramApi->sendMessage($text, $reply_keyboard);

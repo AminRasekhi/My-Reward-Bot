@@ -6,17 +6,16 @@ if ($telegramApi->getText() == '💰افزایش امتیاز') {
     $text = 'شما میتوانید به ازای دعوت دوستان خود ' . ODDS_RATIO . ' شانس دریافت کنید.';
     $text .= "\n\n" . $invite_link;
 
-    $keyboard =
-        [
-        [
+   $reply_markup = [
+        'inline_keyboard' => [
             [
-                'text' => '🏡بازگشت به صفحه اصلی',
+                [
+                    'text' => 'اشتراک گذاری📤',
+                    'switch_inline_query' => $text,
+                ],
             ],
+           
         ],
-    ];
-
-    $reply_keyboard = [
-        'keyboard' => $keyboard,
     ];
 
     $telegramApi->sendMessage($text, $reply_markup);
