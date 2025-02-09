@@ -14,11 +14,11 @@ if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس') {
     ];
 
     if (empty($lottery_register) || (count($lottery_register) === 1 && empty($lottery_register[0]))) {
-        $text = "شما در هیچ قرعه کشی شرکت نکرده اید !";
+        $text = "🚫در حال حاضر در هیچ قرعه کشی شرکت نکرده اید!";
     } else {
             $available_lotteries = $sql->table('events')->select()->where('id', $lottery_register['event_id'])->get();
 
-        $text = 'در زیر نام قرعه هایی که در آن شرکت کرده اید و فعال هستند آمده است. برای تخصیص امتیاز های خود به قرعه کشی یکی از قرعه کشی های زیر را که در آن شرکت کرده اید را انتخاب کنید : ';
+        $text = "🎰در زیر نام قرعه هایی که در آن شرکت کرده اید و فعال هستند آمده است. برای تخصیص امتیاز های خود به قرعه کشی یکی از قرعه کشی های زیر را که در آن شرکت کرده اید را انتخاب کنید : ";
 
         foreach ($available_lotteries as $item) {
             if ($item['status'] == 1) {
@@ -47,10 +47,11 @@ if (strpos($telegramApi->getText(), '🔹 ') === 0) {
     $lotteryInfo = $sql->table('events')->select()->where('name', $lotteryName)->first();
     $event_user  = $sql->table('event_user')->select()->where('user_id', $user['id'])->where("event_id", $lotteryInfo['id'])->first();
 
-    $text = 'موجودی امتیاز شما : ' . $user['tokens'] . PHP_EOL . PHP_EOL;
-    $text .= 'لطفا مقدار امتیازی که میخواهید به شانس تبدیل کنید را برای این قرعه کشی وارد کنید : ' . PHP_EOL;
-    $text .= '⚠️توجه کنید که مقدار وارد شده بین عدد 0 تا ' . $user['tokens'] . ' وارد کنید. درصورت عدم تمایل بر روی دکمه بازگشت کلیک کنید.';
-    // توکن گرفته شده پس داده نخواهد شد.
+    $text = '💳موجوودی حساب شما : ' . $user['tokens'] . PHP_EOL . PHP_EOL;
+    $text .= 'لطفا مقدار امتیازی که میخواهید به شانس تبدیل کنید را برای این قرعه کشی وارد کنید : ' . PHP_EOL . PHP_EOL;
+    $text .= '⚠️توجه کنید که مقدار وارد شده بین عدد 0 تا ' . $user['tokens'] . ' وارد کنید. درصورت عدم تمایل بر روی دکمه بازگشت کلیک کنید.' . PHP_EOL . PHP_EOL;
+    $text .= '🚫توجه داشته باشید که تبدیل امتیاز به شانس قابل بازگشت نیست!' . PHP_EOL . PHP_EOL;
+
     $keyboard = [
         [
             [
@@ -76,23 +77,19 @@ if (strpos($user['step'], 'token_exchange||') === 0) {
     $lotteryInfo = $sql->table('events')->select()->where('name', $lotteryName)->first();
     $event_user  = $sql->table('event_user')->select()->where('user_id', $user['id'])->where("event_id", $lotteryInfo['id'])->first();
 
-    // if (! is_numeric($score)) {
-    //     $telegramApi->sendMessage("مقدار وارد شده صحیح نیست .\nدر این قسمت باید عدد وارد شود .");
-    //     exit(1);
-    // }
     (int) $token = $user['tokens'] ?? 0;
     if ($score > $token) {
-        $text = 'مقدار موجودی شما کافی نیست!';
+        $text = '🚫مقدار موجودی شما کافی نیست!';
         exit(1);
     } elseif ($score <= $token) {
-        $text = "مقدار $score به قرعه $lotteryName اختصاص یافت.";
+        $text = "مقدار $score به قرعه $lotteryName اختصاص یافت✅";
         (int) $lotteryScore += $score + $event_user['lottery_token'];
 
         $sql->table('event_user')->select()->where("id", $event_user['id'])->update(['lottery_token'], [$lotteryScore]);
         (int) $token -= $score;
         $sql->table('users')->select()->where('id', $user['id'])->update(['tokens'], [$token]);
     } else {
-        $text = 'مقدار وارد شده صحیح نیست!';
+        $text = '🚫مقدار وارد شده صحیح نیست!';
     }
 
     $keyboard = [
