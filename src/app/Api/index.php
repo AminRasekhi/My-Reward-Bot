@@ -18,6 +18,7 @@ $eventObj = new Event($sql, $telegramApi);
 $user = $sql->table('users')->select()->where('user_id', $telegramApi->getUser_id())->first();
 
 $userStep = $user['step'];
+$userFirstName = $user['first_name'];
 
 //create or update user
 include_once 'User/CreateUser/create-user.php';
