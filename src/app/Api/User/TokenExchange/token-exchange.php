@@ -16,7 +16,7 @@ if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس') {
     if (empty($lottery_register) || (count($lottery_register) === 1 && empty($lottery_register[0]))) {
         $text = "شما در هیچ قرعه کشی شرکت نکرده اید !";
     } else {
-        $available_lotteries = $sql->table('events')->select()->where('id', $lottery_register['event_id'])->get();
+            $available_lotteries = $sql->table('events')->select()->where('id', $lottery_register['event_id'])->get();
 
         $text = 'در زیر نام قرعه هایی که در آن شرکت کرده اید و فعال هستند آمده است. برای تخصیص امتیاز های خود به قرعه کشی یکی از قرعه کشی های زیر را که در آن شرکت کرده اید را انتخاب کنید : ';
 
