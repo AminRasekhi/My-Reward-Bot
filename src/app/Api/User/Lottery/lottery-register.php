@@ -35,13 +35,13 @@ if ($telegramApi->getText() == "🎰ثبت نام در قرعه کشی") {
             }
         }
     }
-    
+
     $reply_markup = [
-        'keyboard' => $keyboard,
+        'keyboard'        => $keyboard,
         "resize_keyboard" => true,
     ];
 
-    $telegramApi->sendMessage($text, $reply_keyboard);
+    $telegramApi->sendMessage($text, $reply_markup);
 }
 
 if (strpos($telegramApi->getText(), '🔸 ') === 0) {
@@ -70,7 +70,7 @@ if (strpos($telegramApi->getText(), '🔸 ') === 0) {
     ];
 
     $reply_markup = [
-        'keyboard' => $keyboard,
+        'keyboard'        => $keyboard,
         "resize_keyboard" => true,
     ];
 
