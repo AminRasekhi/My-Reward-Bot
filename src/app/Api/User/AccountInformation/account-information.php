@@ -21,12 +21,12 @@ if ($telegramApi->getText() == '📊اطلاعات حساب') {
         $available_lotteries = $sql->table("events")->select(["events.name", "events.award", "events.description", "events.rules_description", "events.start_date", "events.end_date", "event_user.lottery_token"])->join("event_user")->on("events", "id", "event_user", "event_id")->where("user_id", $user['id'])->get();
         foreach ($available_lotteries as $item) {
             $text .= '🪙 نام قرعه : ' . $item['name'] . PHP_EOL;
-            $text .= '🪙 توضیحات : ' . $item['description'] . PHP_EOL;
-            $text .= '🪙 قوانین : ' . $item['rules_description'] . PHP_EOL;
             $text .= '🪙 جوایز : ' . $item['award'] . PHP_EOL;
-            $text .= '🪙 تاریخ شروع : ' . jalaliDate($item['start_date']) . PHP_EOL;
             $text .= '🪙 تاریخ پایان : ' . jalaliDate($item['end_date']) . PHP_EOL;
             $text .= '🪙 تعداد شانس اختصاص یافته به این قرعه : '. $item['lottery_token'] . PHP_EOL . PHP_EOL; // Write Token numbers
+            //$text .= '🪙 توضیحات : ' . $item['description'] . PHP_EOL;
+           // $text .= '🪙 قوانین : ' . $item['rules_description'] . PHP_EOL;
+            //$text .= '🪙 تاریخ شروع : ' . jalaliDate($item['start_date']) . PHP_EOL;
         }
     }
     $keyboard =
