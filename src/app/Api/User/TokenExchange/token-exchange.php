@@ -82,8 +82,8 @@ if (strpos($user['step'], 'token_exchange||') === 0) {
     // }
     (int) $token = $user['tokens'] ?? 0;
     if ($score > $token) {
-
         $text = 'مقدار موجودی شما کافی نیست!';
+        exit(1);
     } elseif ($score <= $token) {
         $text = "مقدار $score به قرعه $lotteryName اختصاص یافت.";
         (int) $lotteryScore += $score + $event_user['lottery_token'];
