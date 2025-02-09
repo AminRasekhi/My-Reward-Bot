@@ -5,11 +5,11 @@ if ($telegramApi->getText() == '📊اطلاعات حساب') {
 
     $InvitedUsers        = $sql->table('users')->select()->where('invited_by_user_id', $user['id'])->get();
     $countOfInvitedUsers = count($InvitedUsers);
-    $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['tokens'], [$countOfInvitedUsers]);
+    $score = $sql->table('users')->select('tokens')->where('user_id', $telegramApi->getUser_id())->first();
 
     $text .= '🔸نام شما : ' . $user['first_name'] . PHP_EOL;
     $text .= '🔹تعداد دعوت شدگان : ' . $countOfInvitedUsers . PHP_EOL;
-    $text .= '🔸شانس های شما : ' . ($countOfInvitedUsers * ODDS_RATIO) . PHP_EOL;
+    $text .= '🔸شانس های شما : ' . $score . PHP_EOL;
 
     $keyboard =
         [
