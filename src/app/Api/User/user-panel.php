@@ -1,8 +1,7 @@
 <?php
 
 if (strpos($telegramApi->getText(), '/start') === 0 || $telegramApi->getText() == "🏡بازگشت به صفحه اصلی") {
-    $sql->table('users')->where('user_id', $telegramApi->getUser_id())->update(['step'], ['home']);
-    
+    setStep('home');
     $text     = "به صفحه ی اصلی خوش آمدید. برای ادامه یکی از گزینه های زیر را انتخاب کنید : ";
     $keyboard =
         [
