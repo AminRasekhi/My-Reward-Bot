@@ -30,6 +30,7 @@ if ($telegramApi->getText() == "مدیریت قرعه کشی") {
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
     exit(1);

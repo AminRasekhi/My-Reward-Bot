@@ -20,6 +20,7 @@ if ($telegramApi->getText() == "لیست قرعه های  فعال") {
     ];
     $reply_keyboard = [
         'keyboard' => $buttons,
+        "resize_keyboard" => true,
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
 }

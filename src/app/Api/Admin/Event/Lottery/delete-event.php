@@ -10,6 +10,7 @@ if (preg_match($pattern, $telegramApi->getText())) {
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
 
     $text = "بخش حذف قرعه\n" . "این بخش غیر فعال است . \nجهت ادامه فرایند لطفا یکی از گزیینه های زیر را انتخاب نمایید .";

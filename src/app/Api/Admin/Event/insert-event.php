@@ -10,6 +10,7 @@ if ($telegramApi->getText() == "افزودن قرعه کشی") {
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
 
     $text = "لطفا یک نام برای قرعه کشی وارد نمایید .";
@@ -72,6 +73,7 @@ if (strpos($userStep, "admin_panel|add_lottery_rules_description") === 0) {
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
     exit(1);
@@ -112,6 +114,7 @@ if (strpos($userStep, "admin_panel|add_lottery_status") === 0) {
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
     exit(1);
@@ -135,6 +138,7 @@ function cancelLottery($sql, $telegramApi, $text = "عملیات با موفقی
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
     exit(1);
@@ -150,6 +154,7 @@ function menuToSendMessage($lotteryID, $text, $telegramApi)
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
     exit(1);

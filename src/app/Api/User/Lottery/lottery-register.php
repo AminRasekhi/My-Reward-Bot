@@ -35,8 +35,10 @@ if ($telegramApi->getText() == "🎰ثبت نام در قرعه کشی") {
             }
         }
     }
-    $reply_keyboard = [
+    
+    $reply_markup = [
         'keyboard' => $keyboard,
+        "resize_keyboard" => true,
     ];
 
     $telegramApi->sendMessage($text, $reply_keyboard);
@@ -67,8 +69,9 @@ if (strpos($telegramApi->getText(), '🔸 ') === 0) {
         ],
     ];
 
-    $reply_keyboard = [
+    $reply_markup = [
         'keyboard' => $keyboard,
+        "resize_keyboard" => true,
     ];
 
     $telegramApi->sendMessage($text, $reply_keyboard);

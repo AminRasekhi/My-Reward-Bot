@@ -21,6 +21,7 @@ if ($telegramApi->getText() == "لیست تمام قرعه ها") {
     ];
     $reply_keyboard = [
         'keyboard' => $buttons,
+        "resize_keyboard" => true,
     ];
     $telegramApi->sendMessage($text, $reply_keyboard);
 }
@@ -86,6 +87,7 @@ if ($telegramApi->getText() == "حذف قرعه کشی") {
                 ],
             ],
         ],
+        "resize_keyboard" => true,
     ];
     $text = "آیا مطمئن هستید که میخواهید این قرعه کشی رو حذف کنید ؟ \n با حذف کردن این قرعه کشی تمام اطلاعات از جمله لیست افراد شرکت کننده حذف خواهد شد .";
     $telegramApi->sendMessage($text, $reply_keyboard);
@@ -101,9 +103,9 @@ if ($telegramApi->getText() == "بله (حذف شدن قرعه کشی)") {
                 [
                     'text' => "بازگشت به پنل ادمین",
                 ],
-
             ],
         ],
+        "resize_keyboard" => true,
     ];
     $text = "قرعه کشی مد نظر شما با موفقیت حذف شد . \n برای ادامه فرایند یکی از گزیینه های زیر رو انتخاب نمایید .";
     $telegramApi->sendMessage($text, $reply_keyboard);

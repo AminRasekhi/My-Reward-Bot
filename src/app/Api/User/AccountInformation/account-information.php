@@ -38,9 +38,10 @@ if ($telegramApi->getText() == '📊اطلاعات حساب') {
         ],
     ];
 
-    $reply_keyboard = [
+    $reply_markup = [
         'keyboard' => $keyboard,
+        "resize_keyboard" => true,
     ];
-
+    
     $telegramApi->sendMessage($text, $reply_markup);
 }

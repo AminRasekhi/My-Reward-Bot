@@ -33,6 +33,7 @@ if ($telegramApi->getText() == '🎫تبدیل امتیاز به شانس') {
 
     $reply_markup = [
         'keyboard' => $keyboard,
+        "resize_keyboard" => true,
     ];
 
     $telegramApi->sendMessage($text, $reply_markup);
@@ -60,8 +61,9 @@ if (strpos($telegramApi->getText(), '🔹 ') === 0) {
         ],
     ];
 
-    $reply_keyboard = [
+    $reply_markup = [
         'keyboard' => $keyboard,
+        "resize_keyboard" => true,
     ];
 
     $telegramApi->sendMessage($text, $reply_markup);
@@ -100,10 +102,11 @@ if (strpos($user['step'], 'token_exchange||') === 0) {
         ],
     ];
 
-    $reply_keyboard = [
+    $reply_markup = [
         'keyboard' => $keyboard,
+        "resize_keyboard" => true,
     ];
-
+    
     $telegramApi->sendMessage($text, $reply_markup);
     exit(1);
 }
