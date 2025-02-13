@@ -10,14 +10,14 @@ if (strpos($telegramApi->getText(), '/start') === 0) {
         $invited_user_temp = explode(' ', $telegramApi->getText())[1];
         if ($invited_user_temp) {
             $invited_by_user_id = $sql->table('users')->select()->where('invite_link', BOT_USERNAME . "?start=" . explode(' ', $telegramApi->getText())[1])->first();
-            
+
             //$reward_user = $sql->table('users')->select()->where('user_id',$invited_user_temp)->first();
             if ($invited_by_user_id) {
                 if ($user['invited_by_user_id '] == null) {
-                    $res = $sql->table('users')->where('user_id', $invited_user_temp)->update(['tokens'], [$invited_by_user_id['tokens'] + ODDS_RATIO]);
-                    $reward_text = "🤝کاربر " . $telegramApi->getFirst_name() . " با لینک شما وارد شد." . PHP_EOL . "امتیاز کنونی شما : ". $invited_by_user_id['tokens'] + ODDS_RATIO;
+                    $res                = $sql->table('users')->where('user_id', $invited_user_temp)->update(['tokens'], [$invited_by_user_id['tokens'] + ODDS_RATIO]);
+                    $reward_text        = "🤝کاربر " . $telegramApi->getFirst_name() . " با لینک شما وارد شد." . PHP_EOL . "امتیاز کنونی شما : " . $invited_by_user_id['tokens'] + ODDS_RATIO;
                     $invited_by_user_id = $invited_by_user_id['id'];
-                    $telegramApi->sendMessage($reward_text,null,null,null,$invited_user_temp);
+                    $telegramApi->sendMessage($reward_text, null, null, null, $invited_user_temp);
                 }
             }
         }
@@ -44,6 +44,10 @@ if (strpos($telegramApi->getText(), '/start') === 0) {
                 'home',
             ]
         );
+
+        //welcome Text for give token
+        $welcomeText = "🎉 خوش اومدی به ربات ما! 🤖✨" . PHP_EOL . "به خاطر ثبت‌نامت، ۵ شانس قرعه‌کشی بهت تعلق گرفت! 🎟️🎁" . PHP_EOL . "منتظر سورپرایزهای بعدی باش! 🚀🔥";
+        $telegramApi->sendMessage($welcomeText);
     } else {
 
         $userName = $telegramApi->getFirst_name();
